@@ -244,7 +244,7 @@ class stocklist():
         self.__drop()
         end_time = datetime.now()
         timedelsta = (end_time - start_time).seconds
-        message = '成功加载%s支股票，耗时%s秒。' % (len(self.list), timedelsta)
+        message = '成功加载%s支股票，耗时%s秒。' % (len(self.stock), timedelsta)
         log.stocklist(message)
     def __drop(self):
         c = 0
