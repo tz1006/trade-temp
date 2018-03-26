@@ -65,9 +65,9 @@ class sms():
             })['messages'][0]['status']
             status = '成功'
             c += 1
-        message = '发送%s： %s ' % (status, text)
+        message = '发送%s：%s' % (status, text)
         #print(message)
-        sms.log(message)
+        log.sms(message)
     def help(self):
         print('''sms.list\nsms.send(number, text)\n/log
             ''')
