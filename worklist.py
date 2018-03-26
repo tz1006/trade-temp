@@ -35,7 +35,7 @@ class worklist():
             for i in self.__li:
                 if i not in wave_list:
                     buy_stock(i)
-                    message = '%s(%s)涨幅超过%s%%, 现价%s' %(i.name, i.code, w, i.price()[0])
+                    message = '%s(%s)涨幅%s%%, 现价%s' %(i.name, i.code, i.wave()[0], i.price()[0])
                     log.worklist(message)
                     sms.send(message)
                     wave_list.append(i)
