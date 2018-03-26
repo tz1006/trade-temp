@@ -36,9 +36,10 @@ class worklist():
                     buy_stock(i)
                     message = '%s(%s)涨幅超过%s%%, 现价%s' %(i.name, i.code, w, i.price()[0])
                     log.worklist(message)
-                    sms.send(16267318573, message)
+                    sms.send(message)
                     wave_list.append(i)
             print('finish')
+            time.sleep(5)
     def wave_checker(self, w):
         self.__li.clear()
         start_time = datetime.now()
@@ -52,7 +53,7 @@ class worklist():
         #return self.__li
     def check_wave(self, instance, w):
         wave = instance.wave()[0]
-        if wave > w:
+        if 8 > wave > w:
         	self.__li.append(instance)
         else:
             pass
