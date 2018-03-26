@@ -7,6 +7,7 @@
 import requests
 from datetime import datetime
 from pytz import timezone
+import json
 
 
 class stock():
