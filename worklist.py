@@ -7,7 +7,6 @@
 #from datetime import datetime
 from sms import sms
 from log import log
-from stocklist import sl
 from concurrent.futures import ThreadPoolExecutor
 
 import sqlite3
@@ -101,10 +100,15 @@ def buy_stock(stock):
     print('写入 %s 数据成功！' % code)
 
 
+from checktime import checktime
+checktime().wait(9,25,0)
+from stocklist import sl
 
 create_form()
+
 wl = worklist()
-wl.wave_start(5.5)
+checktime().wait(9,30,0)
+wl.wave_start(4.5)
 
 if __name__ == '__main__':
     import code
