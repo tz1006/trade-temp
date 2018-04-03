@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-# -*- coding: UTF-8 -*- 
+# -*- coding: UTF-8 -*-
 # filename: worklist.py
 # version: v2
 # description: worklist
@@ -7,6 +7,7 @@
 #from datetime import datetime
 from sms import sms
 from log import log
+from stocklist import sl
 from concurrent.futures import ThreadPoolExecutor
 
 import sqlite3
@@ -14,7 +15,6 @@ import os
 from datetime import datetime
 from pytz import timezone
 import time
-
 
 class worklist():
     def __init__(self):
@@ -41,7 +41,7 @@ class worklist():
                     sms.send(message)
                     wave_list.append(i)
             print('finish')
-            time.sleep(5)
+            time.sleep(0.1)
     def wave_checker(self, w):
         self.__li.clear()
         start_time = datetime.now()
@@ -52,16 +52,16 @@ class worklist():
         timedelsta = (end_time - start_time).seconds
         message = '找到%s个涨幅大于%s的股票，耗时%s秒。' % (len(self.__li), w, timedelsta)
         print(message)
-        #return self.__li
+    #return self.__li
     def check_wave(self, instance, w):
         wave = instance.wave()[0]
         if 8 > wave > w:
-        	self.__li.append(instance)
+            self.__li.append(instance)
         else:
             pass
 
 
-# 在数据库'KDJ'中建立表 'test'/ TIME/ CODE/ NAME/ BS/ PRICE/ WAVE/ MARKET
+# 在数据库'KDJ'中建立表 'test'/ TIME/ CODE/ NAME/ BS/ PRICE/ WAVE/ CLOSEWAVE/ MARKET
 def create_form():
     if os.path.exists('database') == False:
         os.makedirs('database')
@@ -75,6 +75,7 @@ def create_form():
         BS  TEXT,
         PRICE  INT,
         WAVE  INT,
+        CLOSEWAVE  INT,
         MARKET   TEXT);''')
     conn.commit()
     conn.close()
@@ -100,18 +101,17 @@ def buy_stock(stock):
     print('写入 %s 数据成功！' % code)
 
 
+
 from checktime import checktime
 checktime().wait(9,25,0)
 from stocklist import sl
 
 create_form()
-
 wl = worklist()
 checktime().wait(9,30,0)
-wl.wave_start(4.5)
+wl.wave_start(6.5)
 
 if __name__ == '__main__':
     import code
     code.interact(banner = "", local = locals())
-
 
