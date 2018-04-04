@@ -27,11 +27,11 @@ class worklist():
         pool = ThreadPoolExecutor(max_workers=1)
         pool.submit(self.wave, w)
     def wave_stop(self):
-        self.__wave_status == False
+        self.wave_status == False
         print('wave stopped')
     def wave(self, w):
-        self.__wave_status = True
-        while self.__wave_status == True:
+        self.wave_status = True
+        while self.wave_status == True:
             self.wave_checker(w)
             print('finish')
             time.sleep(0.1)
