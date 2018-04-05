@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 # -*- coding: UTF-8 -*-
 # filename: worklist.py
-# version: v3
+# version: v2
 # description: worklist
 
 #from datetime import datetime
@@ -20,40 +20,43 @@ class worklist():
     def __init__(self):
         self.list = []
         self.__li = []
-        self.wave_list = []
         self.stock = sl.stock[:]
     def wave_start(self, w):
         print('start')
         pool = ThreadPoolExecutor(max_workers=1)
         pool.submit(self.wave, w)
     def wave_stop(self):
-        self.wave_status == False
+        self.__wave_status == False
         print('wave stopped')
     def wave(self, w):
-        self.wave_status = True
-        while self.wave_status == True:
+        wave_list = []
+        self.__wave_status = True
+        while self.__wave_status == True:
             self.wave_checker(w)
+            for i in self.__li:
+                if i not in wave_list:
+                    buy_stock(i)
+                    message = '%s(%s)涨幅%s%%, 现价%s' %(i.name, i.code, i.wave()[0], i.price()[0])
+                    log.worklist(message)
+                    sms.send(message)
+                    wave_list.append(i)
             print('finish')
             time.sleep(0.1)
     def wave_checker(self, w):
-        #self.__li.clear()
+        self.__li.clear()
         start_time = datetime.now()
         with ThreadPoolExecutor(max_workers=10000) as executor:
             for i in self.stock:
                 executor.submit(self.check_wave, i, w)
         end_time = datetime.now()
         timedelsta = (end_time - start_time).seconds
-        message = '找到%s个涨幅大于%s的股票，耗时%s秒。' % (len(self.wave_list), w, timedelsta)
+        message = '找到%s个涨幅大于%s的股票，耗时%s秒。' % (len(self.__li), w, timedelsta)
         print(message)
     #return self.__li
     def check_wave(self, instance, w):
         wave = instance.wave()[0]
-        if 8.5 > wave > w:
-            if instance not in self.wave_list:
-                buy_stock(i)
-                message = '%s(%s)涨幅%s%%, 现价%s' %(i.name, i.code, i.wave()[0], i.price()[0])
-                log.worklist(message)
-                self.wave_list.append(instance)
+        if 8 > wave > w:
+            self.__li.append(instance)
         else:
             pass
 
